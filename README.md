@@ -21,3 +21,4 @@ With the master-detail CRUD operations, users can easily create, read, update, a
 + <br />
 + Edit a patient info
 + <br />
++ <img width="944" alt="Edit Page" src="https://user-images.githubusercontent.com/108543825/222974856-7ec9410a-b0ec-456e-a5dc-ff762263cfd7.png">
