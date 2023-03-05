@@ -7,6 +7,7 @@ With the master-detail CRUD operations, users can easily create, read, update, a
 ### You can run my project to see implementation, **you have to do the following-** 
 + First of all run this project migration wii be automatically done.
 + Then register and login new user.
+<img width="733" alt="Register page" src="https://user-images.githubusercontent.com/108543825/222974386-6933d097-0c41-416c-8bde-ec3fb1675e0f.png">
 + Then go to patient detail page
 + Add new patient and test information
 + Edit a patient info
