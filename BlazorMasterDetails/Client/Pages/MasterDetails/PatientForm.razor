@@ -1,0 +1,113 @@
+﻿@using BlazorMasterDetails.Shared;
+
+
+<EditForm Model="patient" OnValidSubmit="OnValidSubmit" enctype="multipart/form-data">
+    <div class="row">
+        <div class="col-8 m-auto">
+            <input type="hidden" @bind="@patient.PatientId" />
+            <div class="form-group mb-2">
+                <label for="name">Patient Name</label>
+                <div>
+                    <InputText class="form-control" id="name" @bind-Value="@patient.PatientName" />
+                </div>
+            </div>
+
+            <div class="form-group mb-2">
+                <label for="name">Date of Birth</label>
+                <div>
+                    <InputDate class="form-control" id="name" @bind-Value="@patient.BirthDate" />
+                </div>
+            </div>
+
+            <div class="form-group mb-2">
+                <label for="name">Phone No</label>
+                <div>
+                    <InputNumber class="form-control" id="name" @bind-Value="@patient.Phone" />
+                </div>
+            </div>
+
+            <div class="form-group mb-2">
+                <label for="name">Picture</label>
+                <div>
+                    <InputFile class="form-control" OnChange="HandleFileSelection" />
+
+                </div>
+            </div>
+
+            <div class="form-check">
+                <InputCheckbox class="form-check-input" name="maritalStatus" id="maritalStatus" @bind-Value="patient.MaritialStatus" />
+                <label class="form-check-label" for="maritalStatus">
+                    Married
+                </label>
+            </div>
+
+        </div>
+    </div>
+    <hr />
+    <div class="row">
+        <div class="col-8 m-auto">
+            <h2>Select Medical Test</h2>
+            <div class="d-flex justify-content-end">
+                <button type="button" @onclick="( ()=> patient.TestList.Add(new Test()))" class="btn btn-primary btn-sm">Add More</button>
+            </div>
+
+            <div class="spotContainer">
+                @for (int i = 0; i < patient.TestList.Count; i++)
+                {
+                    int index = i;
+
+                    <div class="row form-group mt-2">
+                        <div class="col-md-10">
+                            <InputSelect @bind-Value="@patient.TestList[index].TestId" class="form-control">
+                                @if (testbuy is not null)
+                                {
+                                    <option value="0" disabled>---Select---</option>
+                                    @foreach (var test in testbuy)
+                                    {
+                                        <option value="@test.TestId">@test.TestName</option>
+                                    }
+                                }
+
+                            </InputSelect>
+                        </div>
+
+                        <div class="col-md-2">
+                            <button type="button" @onclick="@(() => patient.TestList.RemoveAt(index))" class="btn btn-danger btn-sm">Remove</button>
+                        </div>
+                    </div>
+
+                }
+            </div>
+
+        </div>
+    </div>
+
+    <div class="row mt-2">
+        <div class="col">
+            <button type="submit" class="btn btn-primary btn-lg offset-5">Submit</button>
+        </div>
+    </div>
+
+
+
+</EditForm>
+
+@code {
+    [Parameter] public PatientVM patient { get; set; }
+    [Parameter] public List<Test> testbuy { get; set; }
+    [Parameter] public EventCallback OnValidSubmit { get; set; }
+    [Parameter] public EventCallback<IBrowserFile> SelectedFileChanged { get; set; }
+
+    public IBrowserFile selectedFile { get; set; }
+
+
+    public async Task HandleFileSelection(InputFileChangeEventArgs e)
+    {
+        if (e.File is not null)
+        {
+            selectedFile = e.File;
+            await SelectedFileChanged.InvokeAsync(selectedFile);
+        }
+    }
+}
+

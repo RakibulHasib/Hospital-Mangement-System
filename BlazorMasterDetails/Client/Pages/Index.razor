@@ -1,0 +1,15 @@
+﻿@page "/"
+@inject NavigationManager navigationManager
+
+<PageTitle>Index</PageTitle>
+
+<h1>Hi!</h1>
+
+Welcome to Blazor Master Details
+
+@code {
+    protected override void OnInitialized()
+    {
+        navigationManager.NavigateTo("/Index");
+    }
+}

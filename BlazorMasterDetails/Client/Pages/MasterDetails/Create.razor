@@ -1,0 +1,80 @@
+﻿@page "/create"
+@using BlazorMasterDetails.Shared;
+@inject HttpClient http
+@inject NavigationManager navigationManager
+
+<h3>Add a new Patient</h3>
+<PatientForm patient="patient" OnValidSubmit="OnValidSubmit" testbuy="testbuy" SelectedFileChanged="HandleFileChanged"></PatientForm>
+<div class="d-flex mt-4">
+    <a class="btn btn-link" href="Index">Back to list</a>
+</div>
+
+
+@code {
+    PatientVM patient = new PatientVM();
+    List<Test>? testbuy = new List<Test>();
+
+    private IBrowserFile selectedFile;
+
+    protected override async Task OnInitializedAsync()
+    {
+        await LoadData();
+    }
+    async Task LoadData()
+    {
+        selectedFile = null;
+        testbuy = await http.GetFromJsonAsync<List<Test>>("api/MasterDetail/GetTests");
+        patient.TestList.Add(new Test());
+    }
+
+    private async Task HandleFileChanged(IBrowserFile file)
+    {
+        selectedFile = file;
+        Console.WriteLine(selectedFile.Name);
+    }
+
+    private async Task OnValidSubmit()
+    {
+        var formData = new MultipartFormDataContent();
+
+        foreach (var prop in typeof(PatientVM).GetProperties())
+        {
+            var value = prop.GetValue(patient);
+            if (value != null)
+            {
+                if (prop.Name == "TestList")
+                {
+                    for (int i = 0; i < patient.TestList.Count(); i++)
+                    {
+                        formData.Add(new StringContent(patient.TestList[i].TestId.ToString()), "TestList[" + i + "].TestId");
+                    }
+                    continue;
+                }
+                formData.Add(new StringContent(value.ToString()), prop.Name);
+            }
+        }
+        if (selectedFile is not null)
+        {
+            var fileContent = new StreamContent(selectedFile.OpenReadStream());
+            formData.Add(fileContent, "PictureFile", selectedFile.Name);
+        }
+
+        var response = await http.PostAsync("api/MasterDetail", formData);
+
+        var body = await response.Content.ReadAsStringAsync();
+
+        if (response.IsSuccessStatusCode)
+        {
+            // success
+            Console.WriteLine($"the id of the user is: {body}");
+            navigationManager.NavigateTo("Index");
+        }
+        else
+        {
+            // not success
+            Console.WriteLine(body);
+        }
+
+    }
+}
+

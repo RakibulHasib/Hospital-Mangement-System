@@ -1,0 +1,88 @@
+﻿@page "/index"
+@attribute [Authorize]
+@using BlazorMasterDetails.Shared;
+@using System.Net.Http.Json;
+@using Microsoft.AspNetCore.Authorization;
+@inject HttpClient http
+@inject NavigationManager navigationManager
+
+
+<h3>Index</h3>
+<div class="d-flex justify-content-end mb-2">
+    <a class="btn btn-primary btm-sm" href="/create">Add New</a>
+</div>
+@if (patients is null)
+{
+    <div class="d-flex justify-content-center mt-5">
+        <h2>Loading.....</h2>
+    </div>
+}
+@if (patients is not null)
+{
+    @foreach (var patient in patients)
+    {
+        <div class="card">
+            <div class="card-header d-flex justify-content-between">
+                <div>
+                    <img src="/Images/@patient.Picture" width="32" class="mr-2" />
+                    Name: @patient.PatientName
+                </div>
+                <div>
+                    <a class="btn btn-success" href="patient/edit/@patient.PatientId">Edit</a>
+                    <a class="btn btn-warning" @onclick="@(()=> Delete(patient.PatientId))">Delete</a>
+                </div>
+            </div>
+            <div class="card-body">
+                <table class="table table-bordered table-striped table-sm">
+                    <thead>
+                        <tr>
+                            <th>Test Id</th>
+                            <th>Test Name</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var singleEntry in patient.TestEntries)
+                        {
+                            <tr>
+                                <td>@singleEntry.TestId</td>
+                                <td>@singleEntry.Test.TestName</td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    }
+}
+
+
+
+@code {
+    List<Patient> patients { get; set; }
+
+    protected override async Task OnInitializedAsync()
+    {
+        await LoadData();
+    }
+    async Task LoadData()
+    {
+        patients = await http.GetFromJsonAsync<List<Patient>>("api/MasterDetail/GetPatient");
+    }
+
+    async Task Delete(int patientId)
+    {
+        var response = await http.DeleteAsync($"api/MasterDetail/{patientId}");
+
+        if (response.IsSuccessStatusCode)
+        {
+            // remove the deleted customer from the list
+            patients.RemoveAll(c => c.PatientId == patientId);
+            StateHasChanged();
+        }
+        else
+        {
+            Console.WriteLine(await response.Content.ReadAsStringAsync());
+        }
+    }
+}
+

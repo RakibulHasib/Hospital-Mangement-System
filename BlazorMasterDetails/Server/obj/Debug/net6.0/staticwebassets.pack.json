@@ -1,0 +1,37 @@
+{
+  "Files": [
+    {
+      "Id": "D:\\All Blazor work\\Blazor_Master_Detail\\BlazorMasterDetails\\Server\\wwwroot\\Images\\ada216a2-259b-48aa-8f69-dcf35e1e61a7.png",
+      "PackagePath": "staticwebassets\\Images\\ada216a2-259b-48aa-8f69-dcf35e1e61a7.png"
+    },
+    {
+      "Id": "D:\\All Blazor work\\Blazor_Master_Detail\\BlazorMasterDetails\\Server\\wwwroot\\Images\\default.jpg",
+      "PackagePath": "staticwebassets\\Images\\default.jpg"
+    },
+    {
+      "Id": "D:\\All Blazor work\\Blazor_Master_Detail\\BlazorMasterDetails\\Server\\wwwroot\\Images\\eb3a98b0-65cb-4f19-a383-1aef7eb20d22.jpg",
+      "PackagePath": "staticwebassets\\Images\\eb3a98b0-65cb-4f19-a383-1aef7eb20d22.jpg"
+    },
+    {
+      "Id": "D:\\All Blazor work\\Blazor_Master_Detail\\BlazorMasterDetails\\Server\\wwwroot\\Images\\loading.gif",
+      "PackagePath": "staticwebassets\\Images\\loading.gif"
+    },
+    {
+      "Id": "obj\\Debug\\net6.0\\staticwebassets\\msbuild.BlazorMasterDetails.Server.Microsoft.AspNetCore.StaticWebAssets.props",
+      "PackagePath": "build\\Microsoft.AspNetCore.StaticWebAssets.props"
+    },
+    {
+      "Id": "obj\\Debug\\net6.0\\staticwebassets\\msbuild.build.BlazorMasterDetails.Server.props",
+      "PackagePath": "build\\BlazorMasterDetails.Server.props"
+    },
+    {
+      "Id": "obj\\Debug\\net6.0\\staticwebassets\\msbuild.buildMultiTargeting.BlazorMasterDetails.Server.props",
+      "PackagePath": "buildMultiTargeting\\BlazorMasterDetails.Server.props"
+    },
+    {
+      "Id": "obj\\Debug\\net6.0\\staticwebassets\\msbuild.buildTransitive.BlazorMasterDetails.Server.props",
+      "PackagePath": "buildTransitive\\BlazorMasterDetails.Server.props"
+    }
+  ],
+  "ElementsToRemove": []
+}
